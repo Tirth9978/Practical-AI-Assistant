@@ -2,34 +2,17 @@ import speech_recognition as sr
 import pyttsx3
 import datetime
 import wikipedia
+from duckduckgo_search import DDGS
 import pywhatkit
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
 import psutil
 
+from Functions_File import time
+from Functions_File import search
 
 load_dotenv()
-
-client = OpenAI(
-     base_url="https://openrouter.ai/api/v1",
-     api_key=os.getenv("CHAT_GPT_KEY"),
-)
-
-def aiRunning(comtent):
-     
-     
-     completion = client.chat.completions.create(
-          model="openai/gpt-4o-mini",
-          messages=[
-          {
-               "role": "user",
-               "content": f"{comtent}"
-          }
-    ]
-     )
-     print(completion.choices[0].message.content)
-     talk(completion.choices[0].message.content)
 
 wikipedia.set_lang("en")
 listener = sr.Recognizer()
@@ -58,11 +41,11 @@ def gettingCPUUse():
      if (cpu_usage > 80):
           talk("I am not feeling well there are lots of processes there ")
      
+     
 def run_brain() :
      command = take_command()
      if "time" in command :
-          time = datetime.datetime.now().strftime('%I:%M %p')
-          talk("Time is " + time)
+          time.forTime()
 
      elif "play" in command:
           song = command.replace("play" , "")
@@ -72,10 +55,17 @@ def run_brain() :
      elif "thank" in command :
           talk("Most Welcome sir I am here to help you sir")
           os._exit(0)
-     elif command != "" :
-          aiRunning(command)
           
-     gettingCPUUse()
+     elif 'what is' in command or 'tell me about' in command or 'who is' in command:
+          query = command.replace('what is', '').replace('tell me about', '').replace('who is', '').strip()
+          answer = search.get_answer(query)
+          talk(answer)
+
+     
+     # elif command != "" :
+     #      aiRunning(command)
+          
+     # gettingCPUUse()
           
 
 while True :
