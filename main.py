@@ -10,6 +10,7 @@ import psutil
 
 # Functions .
 from Functions_File import time,aboutYou,search,Pywhatkit,greating
+from Src.Globla_Instructions import globalCall
 
 
 load_dotenv()
@@ -54,7 +55,9 @@ def run_brain() :
      elif "about you" in command :
           name = aboutYou.tellMeAboutYou()
           talk(f"I am {name} . And I here to help you")
-          
+     elif "open" in command : 
+          globalCall.Open(command)
+     
      elif 'what is' in command or 'tell me about' in command or 'who is' in command:
           talk("Searching")
           query = command.replace('what is', '').replace('tell me about', '').replace('who is', '').strip()
