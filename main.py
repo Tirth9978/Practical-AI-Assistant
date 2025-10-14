@@ -10,6 +10,7 @@ import psutil
 
 # Functions .
 from Functions_File import time,aboutYou,search,Pywhatkit,greating,gettingWeather
+from Brain.WebSite_Tracker import ChromeTracker
 from Src.Globla_Instructions import globalCall
 
 
@@ -86,6 +87,8 @@ def run_brain() :
           talk(f"Most Welcome sir .")
           os._exit(0)
           
+     ChromeTracker.chromeChecker()
+     
      return 
      
 def intro():
