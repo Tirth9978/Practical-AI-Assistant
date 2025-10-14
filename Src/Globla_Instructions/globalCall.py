@@ -17,10 +17,8 @@ def findingLink(name):
           for line in file :
                line = line.strip()
                line = line.lower()
-               print("Tirth")
                print(line[:line.find(":")])
                if (name.find(line[:line.find(";")]) != -1):
-                    print(line[:line.find(";")])
                     speek(f"Opening the {line[:line.find(";")]}")
                     webbrowser.open(line[line.find(";") + 1 : ])
                     
