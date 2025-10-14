@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import psutil
 
 # Functions .
-from Functions_File import time,aboutYou,search,Pywhatkit,greating
+from Functions_File import time,aboutYou,search,Pywhatkit,greating,gettingWeather
 from Src.Globla_Instructions import globalCall
 
 
@@ -21,9 +21,19 @@ listener = sr.Recognizer()
 engine = pyttsx3.init()
 engine.setProperty('rate', 170)
 
+# Set female voice automatically
+voices = engine.getProperty('voices')
+female_voice = next((v.id for v in voices if 'female' in v.name.lower()), voices[0].id)
+engine.setProperty('voice', female_voice)
+
+# # Welcome
+# engine.say("Hello! I am your assistant.")
+# engine.runAndWait()
+
 def talk(text):
-    engine.say(text)                # Queue `text` into the TTS engine’s buffer
-    engine.runAndWait()   
+    """Speak the given text using pyttsx3."""
+    engine.say(text)
+    engine.runAndWait()
 
 def take_command() :
      try: 
@@ -48,6 +58,12 @@ def run_brain() :
      if "time" in command :
           time.forTime()
 
+     elif "weather" in command :
+          talk("Please Provide the City")
+          city = take_command()
+          ans = gettingWeather.get_weather(city)
+          talk(ans)
+
      elif "play" in command:
           song = command.replace("play" , "")
           Pywhatkit.play(song)
@@ -55,6 +71,7 @@ def run_brain() :
      elif "about you" in command :
           name = aboutYou.tellMeAboutYou()
           talk(f"I am {name} . And I here to help you")
+          
      elif "open" in command : 
           globalCall.Open(command)
      
@@ -68,12 +85,14 @@ def run_brain() :
      elif "thank" in command :
           talk(f"Most Welcome sir .")
           os._exit(0)
+          
+     return 
      
 def intro():
      ans = greating.intro()
      talk(f"{ans} , How can I help you today.")
-     
-intro()
-
-while True :
-     run_brain()
+   
+if __name__ == "__main__":
+     intro()
+     while True :
+          run_brain()
