@@ -66,9 +66,14 @@ def run_brain() :
      
      
      elif "thank" in command :
-          ans = greating.intro()
-          talk(f"Most Welcome sir , At last {ans}.")
+          talk(f"Most Welcome sir .")
           os._exit(0)
      
+def intro():
+     ans = greating.intro()
+     talk(f"{ans} , How can I help you today.")
+     
+intro()
+
 while True :
      run_brain()
