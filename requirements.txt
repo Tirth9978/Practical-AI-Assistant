@@ -1,0 +1,7 @@
+speechrecognition
+pyttsx3
+pyaudio
+webbrowser
+datetime
+requests
+playsound
