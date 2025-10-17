@@ -7,10 +7,11 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 import psutil
+import subprocess
+import time
 
 # Functions .
 from Functions_File import time,aboutYou,search,Pywhatkit,greating,gettingWeather
-from Brain.WebSite_Tracker import ChromeTracker
 from Src.Globla_Instructions import globalCall
 
 
@@ -27,9 +28,6 @@ voices = engine.getProperty('voices')
 female_voice = next((v.id for v in voices if 'female' in v.name.lower()), voices[0].id)
 engine.setProperty('voice', female_voice)
 
-# # Welcome
-# engine.say("Hello! I am your assistant.")
-# engine.runAndWait()
 
 def talk(text):
     """Speak the given text using pyttsx3."""
@@ -48,11 +46,6 @@ def take_command() :
      except : 
           return ""
 
-def gettingCPUUse():
-     cpu_usage = psutil.cpu_percent(interval=1)
-     print(cpu_usage)
-     if (cpu_usage > 80):
-          talk("I am not feeling well there are lots of processes there ")
      
 def run_brain() :
      command = take_command()
@@ -87,7 +80,7 @@ def run_brain() :
           talk(f"Most Welcome sir .")
           os._exit(0)
           
-     ChromeTracker.chromeChecker()
+     subprocess.Popen(['python', 'Brain/CPUChecking/cpuuse.py'])
      
      return 
      

@@ -5,3 +5,5 @@ webbrowser
 datetime
 requests
 playsound
+subprocess
+psutil
